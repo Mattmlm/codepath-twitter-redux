@@ -69,11 +69,13 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate {
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                     self.scrollView.setContentOffset(CGPointMake(self.twitterMenuVC.view.bounds.width, 0), animated: false)
                     self.menuIsScrolling = false
+                    self.tweetsContainerView.userInteractionEnabled = true;
                 })
             } else { // Swipe Right
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                     self.scrollView.setContentOffset(CGPointMake(0, 0), animated: false)
                     self.menuIsScrolling = false
+                    self.tweetsContainerView.userInteractionEnabled = false;
                 })
             }
         }
