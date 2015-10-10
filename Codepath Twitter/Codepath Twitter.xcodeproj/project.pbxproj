@@ -10,6 +10,9 @@
 		408E2B8BB2F9B9AEF7314F38 /* Pods_Codepath_Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53C95CF16D38EE9F3C394EA2 /* Pods_Codepath_Twitter.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8430BD511BBE6E4000C13E3C /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8430BD501BBE6E4000C13E3C /* TwitterClient.swift */; settings = {ASSET_TAGS = (); }; };
 		844557EB1BC24D6A0081A330 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844557EA1BC24D6A0081A330 /* UIColorExtension.swift */; settings = {ASSET_TAGS = (); }; };
+		8445580F1BC885D70081A330 /* TwitterMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8445580E1BC885D70081A330 /* TwitterMainViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		844558111BC886170081A330 /* TwitterMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844558101BC886170081A330 /* TwitterMenuViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		844558131BC887600081A330 /* TwitterMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844558121BC887600081A330 /* TwitterMenuViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		844A57611BBF4764002116A5 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 844A57601BBF4764002116A5 /* Credentials.plist */; settings = {ASSET_TAGS = (); }; };
 		844A57641BBF9692002116A5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A57631BBF9692002116A5 /* User.swift */; settings = {ASSET_TAGS = (); }; };
 		844A57661BBF969D002116A5 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A57651BBF969D002116A5 /* Tweet.swift */; settings = {ASSET_TAGS = (); }; };
@@ -31,6 +34,9 @@
 		813339024456AFAAE69E672F /* Pods-Codepath Twitter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Codepath Twitter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Codepath Twitter/Pods-Codepath Twitter.debug.xcconfig"; sourceTree = "<group>"; };
 		8430BD501BBE6E4000C13E3C /* TwitterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
 		844557EA1BC24D6A0081A330 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		8445580E1BC885D70081A330 /* TwitterMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterMainViewController.swift; sourceTree = "<group>"; };
+		844558101BC886170081A330 /* TwitterMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterMenuViewController.swift; sourceTree = "<group>"; };
+		844558121BC887600081A330 /* TwitterMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterMenuViewController.xib; sourceTree = "<group>"; };
 		844A57601BBF4764002116A5 /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = "<group>"; };
 		844A57631BBF9692002116A5 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		844A57651BBF969D002116A5 /* Tweet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
@@ -121,6 +127,9 @@
 				84E786BF1BC034E100457CCB /* TweetTableViewCell.swift */,
 				84E786C11BC0383300457CCB /* TweetTableViewCell.xib */,
 				849EEE071BBDCB3E00D46DE6 /* Main.storyboard */,
+				844558101BC886170081A330 /* TwitterMenuViewController.swift */,
+				844558121BC887600081A330 /* TwitterMenuViewController.xib */,
+				8445580E1BC885D70081A330 /* TwitterMainViewController.swift */,
 				849EEE0A1BBDCB3E00D46DE6 /* Assets.xcassets */,
 				849EEE0C1BBDCB3E00D46DE6 /* LaunchScreen.storyboard */,
 				849EEE0F1BBDCB3E00D46DE6 /* Info.plist */,
@@ -208,6 +217,7 @@
 				84E786C21BC0383300457CCB /* TweetTableViewCell.xib in Resources */,
 				849EEE0E1BBDCB3E00D46DE6 /* LaunchScreen.storyboard in Resources */,
 				844A57611BBF4764002116A5 /* Credentials.plist in Resources */,
+				844558131BC887600081A330 /* TwitterMenuViewController.xib in Resources */,
 				849EEE0B1BBDCB3E00D46DE6 /* Assets.xcassets in Resources */,
 				849EEE091BBDCB3E00D46DE6 /* Main.storyboard in Resources */,
 			);
@@ -275,8 +285,10 @@
 				849EEE061BBDCB3E00D46DE6 /* LoginViewController.swift in Sources */,
 				844A57691BBF98D1002116A5 /* TweetDateFormatter.swift in Sources */,
 				84E786BE1BBFB9F900457CCB /* TweetsViewController.swift in Sources */,
+				844558111BC886170081A330 /* TwitterMenuViewController.swift in Sources */,
 				8430BD511BBE6E4000C13E3C /* TwitterClient.swift in Sources */,
 				844557EB1BC24D6A0081A330 /* UIColorExtension.swift in Sources */,
+				8445580F1BC885D70081A330 /* TwitterMainViewController.swift in Sources */,
 				849EEE041BBDCB3E00D46DE6 /* AppDelegate.swift in Sources */,
 				84E786C01BC034E100457CCB /* TweetTableViewCell.swift in Sources */,
 			);
