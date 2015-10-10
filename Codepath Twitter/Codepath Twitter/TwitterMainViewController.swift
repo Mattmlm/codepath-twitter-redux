@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TwitterMainViewController: UIViewController {
+class TwitterMainViewController: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollContentView: UIView!
@@ -18,13 +18,24 @@ class TwitterMainViewController: UIViewController {
     var twitterMenuVC: TwitterMenuViewController!
     var tweetsVC: TweetsViewController!
     
+    var viewLoaded: Bool = false;
+    var menuIsScrolling: Bool = false;
+    var lastScrollOffsetX: CGFloat!;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        self.scrollView.setContentOffset(CGPointMake(self.twitterMenuVC.view.bounds.width, 0), animated: false);
+        
+        self.scrollView.delegate = self;
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated);
+        self.scrollView.setContentOffset(CGPointMake(self.twitterMenuVC.view.bounds.width, 0), animated: false);
+        self.lastScrollOffsetX = self.scrollView.contentOffset.x
+    }
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -44,4 +55,27 @@ class TwitterMainViewController: UIViewController {
         }
     }
 
+    // MARK: - Scroll View
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.lastScrollOffsetX = self.scrollView.contentOffset.x
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if !self.menuIsScrolling {
+            self.menuIsScrolling = true
+            // Swipe Left
+            if self.scrollView.contentOffset.x > self.lastScrollOffsetX {
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    self.scrollView.setContentOffset(CGPointMake(self.twitterMenuVC.view.bounds.width, 0), animated: false)
+                    self.menuIsScrolling = false
+                })
+            } else { // Swipe Right
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    self.scrollView.setContentOffset(CGPointMake(0, 0), animated: false)
+                    self.menuIsScrolling = false
+                })
+            }
+        }
+    }
 }

@@ -361,7 +361,7 @@
         <!--Twitter Main View Controller-->
         <scene sceneID="r7d-NJ-CXl">
             <objects>
-                <viewController id="9sX-i8-hmC" customClass="TwitterMainViewController" customModule="Codepath_Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="9sX-i8-hmC" customClass="TwitterMainViewController" customModule="Codepath_Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Hn3-G8-PHs"/>
                         <viewControllerLayoutGuide type="bottom" id="6xC-Po-6Ph"/>
