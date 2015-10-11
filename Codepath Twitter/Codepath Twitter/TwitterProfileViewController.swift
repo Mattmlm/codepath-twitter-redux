@@ -21,8 +21,17 @@ class TwitterProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        self.title = user?.name!
+        let closeButton = UIBarButtonItem(title: "Close", style: .Plain, target: self, action: "closeProfile")
+        self.navigationItem.leftBarButtonItem = closeButton;
+        
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController?.navigationBar.barTintColor = UIColor(rgba: "#55ACEE");
+        self.navigationController?.navigationBar.translucent = false;
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black;
+        
         self.tweetsCountLabel.text = "\(user.tweetsCount!)"
         self.followingCountLabel.text = "\(user.followingCount!)"
         self.followersCountLabel.text = "\(user.followersCount!)"
@@ -36,6 +45,9 @@ class TwitterProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func closeProfile() {
+        dismissViewControllerAnimated(true, completion: nil);
+    }
 
     /*
     // MARK: - Navigation

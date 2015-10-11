@@ -202,7 +202,7 @@
                                     <action selector="onRetweetButtonPressed:" destination="GHI-h7-frg" eventType="touchUpInside" id="i7v-eh-6g5"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mwa-tn-vw4">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mwa-tn-vw4">
                                 <rect key="frame" x="219" y="244" width="81" height="22"/>
                                 <animations/>
                                 <state key="normal" title="Favorite" image="favorite"/>
