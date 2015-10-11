@@ -2,11 +2,15 @@
 //  TweetTableViewCell.swift
 //  Codepath Twitter
 //
-//  Created by admin on 10/3/15.
+//  Created by admin on 10/11/15.
 //  Copyright © 2015 mattmo. All rights reserved.
 //
 
 import UIKit
+
+protocol TweetCellDelegate: class {
+    func openProfile(user: User)
+}
 
 class TweetTableViewCell: UITableViewCell {
 
@@ -16,9 +20,17 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var tweetTextLabel: UILabel!
     @IBOutlet weak var tweetCreatedAtLabel: UILabel!
     
+    var tweet: Tweet!
+    weak var delegate: TweetCellDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        profileImageView.userInteractionEnabled = true;
+        let singleTap = UITapGestureRecognizer(target: self, action: "openProfile")
+        singleTap.numberOfTapsRequired = 1
+        profileImageView.addGestureRecognizer(singleTap)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -26,5 +38,8 @@ class TweetTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    func openProfile() {
+        self.delegate?.openProfile(tweet.user!)
+    }
 }

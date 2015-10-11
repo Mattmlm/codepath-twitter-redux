@@ -202,7 +202,7 @@
                                     <action selector="onRetweetButtonPressed:" destination="GHI-h7-frg" eventType="touchUpInside" id="i7v-eh-6g5"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mwa-tn-vw4">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mwa-tn-vw4">
                                 <rect key="frame" x="219" y="244" width="81" height="22"/>
                                 <animations/>
                                 <state key="normal" title="Favorite" image="favorite"/>
@@ -473,6 +473,10 @@
         <scene sceneID="PuV-Ri-NrL">
             <objects>
                 <viewController id="eI9-xy-gAc" customClass="TwitterMenuViewController" customModule="Codepath_Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="h0t-tP-aEq"/>
+                        <viewControllerLayoutGuide type="bottom" id="f1m-AN-tvG"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Wd7-ec-DAj">
                         <rect key="frame" x="0.0" y="0.0" width="200" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

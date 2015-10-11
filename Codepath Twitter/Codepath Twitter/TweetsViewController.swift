@@ -9,7 +9,7 @@
 import UIKit
 import MBProgressHUD
 
-class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetCellDelegate {
 
     var tweets: [Tweet]?
     var refreshControl = UIRefreshControl()
@@ -88,6 +88,8 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetTableViewCell
         let tweet = tweets?[indexPath.row]
+        cell.delegate = self;
+        cell.tweet = tweet;
         cell.profileImageView.setImageWithURL(NSURL(string: (tweet?.user?.profileImageUrl!)!)!)
         cell.userNameLabel.text = tweet?.user?.name!
         cell.screenNameLabel.text = "@\((tweet?.user?.screenname)!)"
@@ -112,6 +114,14 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             return self.formatter.stringFromTimeInterval(interval)!
         }
         return ""
+    }
+    
+    // MARK: - Tweet Cell Delegate
+    func openProfile(user: User) {
+        let profileVC = TwitterProfileViewController()
+        profileVC.user = user
+        let navVC = UINavigationController(rootViewController: profileVC)
+        self.presentViewController(navVC, animated: true, completion: nil)
     }
     
     // MARK: - Navigation
