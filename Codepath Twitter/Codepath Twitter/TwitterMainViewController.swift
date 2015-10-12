@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuButtonDelegate {
+class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuButtonDelegate, TimelineChangeDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollContentView: UIView!
@@ -39,6 +39,7 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuBut
         // Dispose of any resources that can be recreated.
     }
 
+    // MARK: - MenuButtonDelegate
     func openMenu() {
         self.menuIsScrolling = true
         UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -57,6 +58,11 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuBut
         })
     }
     
+    // MARK: - TimelineChange Delegate
+    func changeTimeline(type: TimelineType) {
+        self.tweetsVC.loadTweets(type);
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -70,7 +76,8 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuBut
         }
         if segue.identifier == "menuViewInMain" {
             self.twitterMenuVC = segue.destinationViewController as? TwitterMenuViewController
-            self.twitterMenuVC.delegate = self;
+            self.twitterMenuVC.timelineChangeDelegate = self;
+            self.twitterMenuVC.menuButtonDelegate = self;
         }
     }
 

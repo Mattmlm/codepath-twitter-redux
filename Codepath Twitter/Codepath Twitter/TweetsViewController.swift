@@ -14,17 +14,33 @@ protocol MenuButtonDelegate: class {
     func closeMenu()
 }
 
+enum TimelineType: Int {
+    case Home = 0, Mentions
+}
+
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetCellDelegate {
 
     var tweets: [Tweet]?
     var refreshControl = UIRefreshControl()
     var formatter = NSDateComponentsFormatter()
+    var timelineType: TimelineType?;
+    var refreshTable: ((tweets: [Tweet]?, error: NSError?) -> ())!
     weak var delegate: MenuButtonDelegate?
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        refreshTable = { (tweets: [Tweet]?, error: NSError?) -> () in
+            MBProgressHUD.hideHUDForView(self.view, animated: true)
+            if (tweets != nil) {
+                self.tweets = tweets
+                self.tableView.reloadData();
+            } else {
+                print("Error getting timeline tweets:\(error)")
+            }
+        }
         
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         self.navigationController?.navigationBar.barTintColor = UIColor(rgba: "#55ACEE");
@@ -48,7 +64,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.refreshControl.addTarget(self, action: "onRefresh", forControlEvents: .ValueChanged)
         self.tableView.insertSubview(self.refreshControl, atIndex: 0)
         
-        self.loadTweets()
+        self.loadTweets(TimelineType.Home);
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,27 +72,29 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Dispose of any resources that can be recreated.
     }
     
-    func loadTweets() {
-        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        TwitterClient.sharedInstance.homeTimelineWithCompletion(nil) { (tweets, error) -> () in
-            MBProgressHUD.hideHUDForView(self.view, animated: true)
-            if (tweets != nil) {
-                self.tweets = tweets
-                self.tableView.reloadData();
-            } else {
-                print("Error getting home timeline tweets:\(error)")
+    func loadTweets(type: TimelineType) {
+        if (self.timelineType == nil || self.timelineType != type) {
+            MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            if (type == .Home) {
+                TwitterClient.sharedInstance.homeTimelineWithCompletion(nil, completion: self.refreshTable);
+                self.timelineType = .Home;
+            } else if (type == .Mentions) {
+                TwitterClient.sharedInstance.mentionsTimelineWithCompletion(nil, completion: self.refreshTable);
+                self.timelineType = .Mentions;
             }
         }
     }
     
     func onRefresh() {
-        TwitterClient.sharedInstance.homeTimelineWithCompletion(nil) { (tweets, error) -> () in
-            self.refreshControl.endRefreshing()
-            if (tweets != nil) {
-                self.tweets = tweets
-                self.tableView.reloadData();
-            } else {
-                print("Error getting home timeline tweets:\(error)")
+        if self.timelineType == .Home {
+            TwitterClient.sharedInstance.homeTimelineWithCompletion(nil) { (tweets, error) -> () in
+                self.refreshControl.endRefreshing()
+                self.refreshTable(tweets: tweets, error: error);
+            }
+        } else if self.timelineType == .Mentions {
+            TwitterClient.sharedInstance.mentionsTimelineWithCompletion(nil) { (tweets, error) -> () in
+                self.refreshControl.endRefreshing()
+                self.refreshTable(tweets: tweets, error: error);
             }
         }
     }

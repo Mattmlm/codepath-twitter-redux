@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol TimelineChangeDelegate: class {
+    func changeTimeline(type: TimelineType);
+}
+
 class TwitterMenuViewController: UIViewController {
 
-    weak var delegate: MenuButtonDelegate?
+    weak var menuButtonDelegate: MenuButtonDelegate?
+    weak var timelineChangeDelegate: TimelineChangeDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +29,12 @@ class TwitterMenuViewController: UIViewController {
     }
     
     @IBAction func homeButtonPressed(sender: AnyObject) {
-        self.delegate?.closeMenu()
+        self.menuButtonDelegate?.closeMenu()
+        self.timelineChangeDelegate?.changeTimeline(TimelineType.Home);
     }
     
     @IBAction func profileButtonPressed(sender: AnyObject) {
-        self.delegate?.closeMenu()
+        self.menuButtonDelegate?.closeMenu()
         let profileVC = TwitterProfileViewController()
         profileVC.user = User.currentUser
         let navVC = UINavigationController(rootViewController: profileVC)
@@ -36,7 +42,8 @@ class TwitterMenuViewController: UIViewController {
     }
     
     @IBAction func mentionsButtonPressed(sender: AnyObject) {
-        self.delegate?.closeMenu()
+        self.menuButtonDelegate?.closeMenu()
+        self.timelineChangeDelegate?.changeTimeline(TimelineType.Mentions)
     }
     @IBAction func signOutButtonPressed(sender: AnyObject) {
         User.currentUser?.logout()
