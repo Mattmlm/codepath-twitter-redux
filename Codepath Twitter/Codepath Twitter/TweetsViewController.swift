@@ -9,11 +9,17 @@
 import UIKit
 import MBProgressHUD
 
+protocol MenuButtonDelegate: class {
+    func openMenu()
+    func closeMenu()
+}
+
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetCellDelegate {
 
     var tweets: [Tweet]?
     var refreshControl = UIRefreshControl()
     var formatter = NSDateComponentsFormatter()
+    weak var delegate: MenuButtonDelegate?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -25,7 +31,9 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.navigationController?.navigationBar.translucent = false;
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
         self.navigationController?.navigationBar.barStyle = UIBarStyle.Black;
-
+        
+        let btn = UIBarButtonItem(image: UIImage(named: "hamburger"), style: .Plain, target: self, action: "menuButtonPressed");
+        self.navigationItem.leftBarButtonItem = btn
         
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
@@ -73,8 +81,8 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    @IBAction func logoutButtonPressed(sender: AnyObject) {
-        User.currentUser?.logout()
+    func menuButtonPressed() {
+        self.delegate?.openMenu()
     }
     
     // MARK: - TableViewController

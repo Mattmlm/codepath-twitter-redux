@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TwitterMainViewController: UIViewController, UIScrollViewDelegate {
+class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuButtonDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollContentView: UIView!
@@ -26,7 +26,6 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         self.scrollView.delegate = self;
-        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black;
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -35,13 +34,29 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate {
         self.lastScrollOffsetX = self.scrollView.contentOffset.x
     }
     
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+    func openMenu() {
+        self.menuIsScrolling = true
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.scrollView.setContentOffset(CGPointMake(0, 0), animated: false)
+            self.menuIsScrolling = false
+            self.tweetsContainerView.userInteractionEnabled = false;
+        })
+    }
+    
+    func closeMenu() {
+        self.menuIsScrolling = true
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.scrollView.setContentOffset(CGPointMake(self.twitterMenuVC.view.bounds.width, 0), animated: false)
+            self.menuIsScrolling = false
+            self.tweetsContainerView.userInteractionEnabled = true;
+        })
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -51,9 +66,11 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate {
         if segue.identifier == "homeViewInMain" {
             let navVC = segue.destinationViewController as? UINavigationController
             self.tweetsVC = navVC?.topViewController as? TweetsViewController
+            self.tweetsVC.delegate = self;
         }
         if segue.identifier == "menuViewInMain" {
             self.twitterMenuVC = segue.destinationViewController as? TwitterMenuViewController
+            self.twitterMenuVC.delegate = self;
         }
     }
 
