@@ -26,6 +26,7 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         self.scrollView.delegate = self;
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black;
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -48,7 +49,8 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "homeViewInMain" {
-            self.tweetsVC = segue.destinationViewController as? TweetsViewController
+            let navVC = segue.destinationViewController as? UINavigationController
+            self.tweetsVC = navVC?.topViewController as? TweetsViewController
         }
         if segue.identifier == "menuViewInMain" {
             self.twitterMenuVC = segue.destinationViewController as? TwitterMenuViewController

@@ -25,7 +25,7 @@ class ComposeTweetViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor(rgba: "#55ACEE");
         self.navigationController?.navigationBar.translucent = false;
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
-        
+
         if replyToTweet != nil {
             self.tweetField.text = "@\((replyToTweet!.user?.screenname)!) "
         }

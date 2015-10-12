@@ -24,6 +24,8 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.navigationController?.navigationBar.barTintColor = UIColor(rgba: "#55ACEE");
         self.navigationController?.navigationBar.translucent = false;
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black;
+
         
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
