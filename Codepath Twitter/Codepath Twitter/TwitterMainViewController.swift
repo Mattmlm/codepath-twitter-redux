@@ -18,9 +18,8 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuBut
     var twitterMenuVC: TwitterMenuViewController!
     var tweetsVC: TweetsViewController!
     
-    var viewLoaded: Bool = false;
     var menuIsScrolling: Bool = false;
-    var lastScrollOffsetX: CGFloat!;
+    var lastScrollOffsetX: CGFloat = 0;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +27,9 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuBut
         self.scrollView.delegate = self;
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated);
-        self.scrollView.setContentOffset(CGPointMake(self.twitterMenuVC.view.bounds.width, 0), animated: false);
+        self.scrollView.setContentOffset(CGPoint(x: self.twitterMenuVC.view.bounds.width, y: 0), animated: false);
         self.lastScrollOffsetX = self.scrollView.contentOffset.x
     }
     
@@ -40,42 +39,46 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuBut
     }
 
     // MARK: - MenuButtonDelegate
-    func openMenu() {
+    func toggleMenu(view: UIView, sender: Any) {
+        self.scrollView.contentOffset.x != 0 ? openMenu(view: view, sender: sender) : closeMenu(view: view, sender: sender)
+    }
+    func openMenu(view: UIView, sender: Any) {
         self.menuIsScrolling = true
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.scrollView.setContentOffset(CGPointMake(0, 0), animated: false)
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
             self.menuIsScrolling = false
-            self.tweetsContainerView.userInteractionEnabled = false;
+            view.isUserInteractionEnabled = false;
         })
     }
     
-    func closeMenu() {
+    func closeMenu(view: UIView, sender: Any) {
         self.menuIsScrolling = true
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.scrollView.setContentOffset(CGPointMake(self.twitterMenuVC.view.bounds.width, 0), animated: false)
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
+            self.scrollView.setContentOffset(CGPoint(x: self.twitterMenuVC.view.bounds.width, y: 0), animated: false)
             self.menuIsScrolling = false
-            self.tweetsContainerView.userInteractionEnabled = true;
+            self.tweetsContainerView.isUserInteractionEnabled = true;
+            view.isUserInteractionEnabled = true;
         })
     }
     
     // MARK: - TimelineChange Delegate
     func changeTimeline(type: TimelineType) {
-        self.tweetsVC.loadTweets(type);
+        self.tweetsVC.loadTweets(type: type);
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "homeViewInMain" {
-            let navVC = segue.destinationViewController as? UINavigationController
+            let navVC = segue.destination as? UINavigationController
             self.tweetsVC = navVC?.topViewController as? TweetsViewController
             self.tweetsVC.delegate = self;
         }
         if segue.identifier == "menuViewInMain" {
-            self.twitterMenuVC = segue.destinationViewController as? TwitterMenuViewController
+            self.twitterMenuVC = segue.destination as? TwitterMenuViewController
             self.twitterMenuVC.timelineChangeDelegate = self;
             self.twitterMenuVC.menuButtonDelegate = self;
         }
@@ -83,25 +86,25 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuBut
 
     // MARK: - Scroll View
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.lastScrollOffsetX = self.scrollView.contentOffset.x
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if !self.menuIsScrolling {
             self.menuIsScrolling = true
             // Swipe Left
-            if self.scrollView.contentOffset.x > self.lastScrollOffsetX {
-                UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    self.scrollView.setContentOffset(CGPointMake(self.twitterMenuVC.view.bounds.width, 0), animated: false)
+            if scrollView.contentOffset.x > self.lastScrollOffsetX {
+                UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                    scrollView.setContentOffset(CGPoint(x: self.twitterMenuVC.view.bounds.width, y: 0), animated: false);
                     self.menuIsScrolling = false
-                    self.tweetsContainerView.userInteractionEnabled = true;
+                    self.tweetsContainerView.isUserInteractionEnabled = true;
                 })
             } else { // Swipe Right
-                UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    self.scrollView.setContentOffset(CGPointMake(0, 0), animated: false)
+                UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                    scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
                     self.menuIsScrolling = false
-                    self.tweetsContainerView.userInteractionEnabled = false;
+                    self.tweetsContainerView.isUserInteractionEnabled = false;
                 })
             }
         }

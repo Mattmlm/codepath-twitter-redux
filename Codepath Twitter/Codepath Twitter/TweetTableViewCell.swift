@@ -27,19 +27,19 @@ class TweetTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        profileImageView.userInteractionEnabled = true;
+        profileImageView.isUserInteractionEnabled = true;
         let singleTap = UITapGestureRecognizer(target: self, action: "openProfile")
         singleTap.numberOfTapsRequired = 1
         profileImageView.addGestureRecognizer(singleTap)
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
     
     func openProfile() {
-        self.delegate?.openProfile(tweet.user!)
+//        self.delegate?.openProfile(tweet.user!)
     }
 }

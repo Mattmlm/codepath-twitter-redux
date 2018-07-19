@@ -28,32 +28,32 @@ class TwitterMenuViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func homeButtonPressed(sender: AnyObject) {
-        self.menuButtonDelegate?.closeMenu()
-        self.timelineChangeDelegate?.changeTimeline(TimelineType.Home);
+    @IBAction func homeButtonPressed(sender: Any) {
+//        self.menuButtonDelegate?.closeMenu()
+//        self.timelineChangeDelegate?.changeTimeline(TimelineType.Home);
     }
-    
-    @IBAction func profileButtonPressed(sender: AnyObject) {
-        self.menuButtonDelegate?.closeMenu()
-        let profileVC = TwitterProfileViewController()
-        profileVC.user = User.currentUser
-        let navVC = UINavigationController(rootViewController: profileVC)
-        self.presentViewController(navVC, animated: true, completion: nil)
+//
+    @IBAction func profileButtonPressed(sender: Any) {
+//        self.menuButtonDelegate?.closeMenu()
+//        let profileVC = TwitterProfileViewController()
+//        profileVC.user = User.currentUser
+//        let navVC = UINavigationController(rootViewController: profileVC)
+//        self.presentViewController(navVC, animated: true, completion: nil)
     }
-    
-    @IBAction func mentionsButtonPressed(sender: AnyObject) {
-        self.menuButtonDelegate?.closeMenu()
-        self.timelineChangeDelegate?.changeTimeline(TimelineType.Mentions)
+//
+    @IBAction func mentionsButtonPressed(sender: Any) {
+//        self.menuButtonDelegate?.closeMenu()
+//        self.timelineChangeDelegate?.changeTimeline(TimelineType.Mentions)
     }
-    @IBAction func signOutButtonPressed(sender: AnyObject) {
-        User.currentUser?.logout()
+    @IBAction func signOutButtonPressed(sender: Any) {
+//        User.currentUser?.logout()
     }
 
     /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }

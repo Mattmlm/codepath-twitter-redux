@@ -10,8 +10,9 @@ import UIKit
 import MBProgressHUD
 
 protocol MenuButtonDelegate: class {
-    func openMenu()
-    func closeMenu()
+    func openMenu(view: UIView, sender: Any)
+    func closeMenu(view: UIView, sender: Any)
+    func toggleMenu(view: UIView, sender: Any)
 }
 
 enum TimelineType: Int {
@@ -20,51 +21,73 @@ enum TimelineType: Int {
 
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetCellDelegate {
 
-    var tweets: [Tweet]?
+    var tweets: [Tweet]? = []
     var refreshControl = UIRefreshControl()
-    var formatter = NSDateComponentsFormatter()
-    var timelineType: TimelineType?;
-    var refreshTable: ((tweets: [Tweet]?, error: NSError?) -> ())!
+    var formatter = DateComponentsFormatter()
+    var timelineType: TimelineType? = .Home
+    var refreshTable: (([Tweet]?, NSError?) -> ())?
     weak var delegate: MenuButtonDelegate?
     
     @IBOutlet weak var tableView: UITableView!
+    
+//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+//        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+//        
+//        self.initialize()
+//    }
+//    
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//        
+//        self.initialize()
+//    }
+//    
+//    init() {
+//        super.init(nibName: nil, bundle: nil)
+//        
+//        self.initialize()
+//    }
+    
+    func initialize() {
+        self.view.translatesAutoresizingMaskIntoConstraints = false
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         refreshTable = { (tweets: [Tweet]?, error: NSError?) -> () in
-            MBProgressHUD.hideHUDForView(self.view, animated: true)
+            MBProgressHUD.hide(for: self.view, animated: true)
             if (tweets != nil) {
                 self.tweets = tweets
                 self.tableView.reloadData();
             } else {
-                print("Error getting timeline tweets:\(error)")
+                print("Error getting timeline tweets:\(String(describing:error))")
             }
         }
         
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.barTintColor = UIColor(rgba: "#55ACEE");
-        self.navigationController?.navigationBar.translucent = false;
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
-        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black;
+        self.navigationController?.navigationBar.isTranslucent = false;
+        self.navigationController?.navigationBar.tintColor = UIColor.white;
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.black;
         
-        let btn = UIBarButtonItem(image: UIImage(named: "hamburger"), style: .Plain, target: self, action: "menuButtonPressed");
+        let btn = UIBarButtonItem(image: UIImage(named: "hamburger"), style: .plain, target: self, action: #selector(menuButtonPressed(sender:)));
         self.navigationItem.leftBarButtonItem = btn
         
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         
         let tweetCellNib = UINib(nibName: "TweetTableViewCell", bundle: nil)
-        self.tableView.registerNib(tweetCellNib, forCellReuseIdentifier: "TweetCell")
+        self.tableView.register(tweetCellNib, forCellReuseIdentifier: "TweetCell")
         
         self.tableView.estimatedRowHeight = 120;
         self.tableView.rowHeight = UITableViewAutomaticDimension;
         
         // Set up refresh control
-        self.refreshControl.addTarget(self, action: "onRefresh", forControlEvents: .ValueChanged)
-        self.tableView.insertSubview(self.refreshControl, atIndex: 0)
+        self.refreshControl.addTarget(self, action: #selector(TweetsViewController.onRefresh), for: .valueChanged)
+        self.tableView.insertSubview(self.refreshControl, at: 0)
         
-        self.loadTweets(TimelineType.Home);
+        self.loadTweets(type: TimelineType.Home);
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,33 +97,33 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func loadTweets(type: TimelineType) {
         if (self.timelineType == nil || self.timelineType != type) {
-            MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            MBProgressHUD.showAdded(to: self.view, animated: true)
             if (type == .Home) {
-                TwitterClient.sharedInstance.homeTimelineWithCompletion(nil, completion: self.refreshTable);
+//                TwitterClient.sharedInstance.homeTimelineWithCompletion(params: nil, completion: self.refreshTable);
                 self.timelineType = .Home;
             } else if (type == .Mentions) {
-                TwitterClient.sharedInstance.mentionsTimelineWithCompletion(nil, completion: self.refreshTable);
+//                TwitterClient.sharedInstance.mentionsTimelineWithCompletion(params: nil, completion: self.refreshTable);
                 self.timelineType = .Mentions;
             }
         }
     }
     
-    func onRefresh() {
+    @objc func onRefresh() {
         if self.timelineType == .Home {
-            TwitterClient.sharedInstance.homeTimelineWithCompletion(nil) { (tweets, error) -> () in
-                self.refreshControl.endRefreshing()
-                self.refreshTable(tweets: tweets, error: error);
-            }
+//            TwitterClient.sharedInstance.homeTimelineWithCompletion(params: nil) { (tweets, error) -> () in
+//                self.refreshControl.endRefreshing()
+//                self.refreshTable(tweets, error);
+//            }
         } else if self.timelineType == .Mentions {
-            TwitterClient.sharedInstance.mentionsTimelineWithCompletion(nil) { (tweets, error) -> () in
-                self.refreshControl.endRefreshing()
-                self.refreshTable(tweets: tweets, error: error);
-            }
+//            TwitterClient.sharedInstance.mentionsTimelineWithCompletion(params: nil) { (tweets, error) -> () in
+//                self.refreshControl.endRefreshing()
+//                self.refreshTable(tweets, error);
+//            }
         }
     }
     
-    func menuButtonPressed() {
-        self.delegate?.openMenu()
+    @objc func menuButtonPressed(sender: Any) {
+        self.delegate?.toggleMenu(view: self.view, sender: sender)
     }
     
     // MARK: - TableViewController
@@ -109,37 +132,37 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return 1;
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets?.count ?? 0;
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TweetCell", forIndexPath: indexPath) as! TweetTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetTableViewCell
         let tweet = tweets?[indexPath.row]
         cell.delegate = self;
         cell.tweet = tweet;
-        cell.profileImageView.setImageWithURL(NSURL(string: (tweet?.user?.profileImageUrl!)!)!)
+        cell.profileImageView.setImageWith(URL(string: (tweet?.user?.profileImageUrl!)!)!)
         cell.userNameLabel.text = tweet?.user?.name!
         cell.screenNameLabel.text = "@\((tweet?.user?.screenname)!)"
         cell.tweetTextLabel.text = tweet?.text!
-        cell.tweetCreatedAtLabel.text = formatTimeElapsed(tweet?.createdAt)
+        cell.tweetCreatedAtLabel.text = formatTimeElapsed(sinceDate: tweet?.createdAt)
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("showTweetDetails", sender: self);
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showTweetDetails", sender: self);
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func formatTimeElapsed(sinceDate: NSDate?) -> String {
+    func formatTimeElapsed(sinceDate: Date?) -> String {
         if let date = sinceDate {
-            self.formatter.unitsStyle = NSDateComponentsFormatterUnitsStyle.Abbreviated
+            self.formatter.unitsStyle = DateComponentsFormatter.UnitsStyle.abbreviated
             self.formatter.collapsesLargestUnit = true
             self.formatter.maximumUnitCount = 1
-            let interval = NSDate().timeIntervalSinceDate(date)
-            return self.formatter.stringFromTimeInterval(interval)!
+            let interval = Date().timeIntervalSince(date as Date)
+            return self.formatter.string(from: interval)!
         }
         return ""
     }
@@ -149,15 +172,15 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let profileVC = TwitterProfileViewController()
         profileVC.user = user
         let navVC = UINavigationController(rootViewController: profileVC)
-        self.presentViewController(navVC, animated: true, completion: nil)
+        self.present(navVC, animated: true, completion: nil)
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "showTweetDetails") {
-            let vc = segue.destinationViewController as! TweetDetailsViewController
+            let vc = segue.destination as! TweetDetailsViewController
             let tweet = tweets?[(tableView.indexPathForSelectedRow?.row)!]
             vc.tweet = tweet;
         }

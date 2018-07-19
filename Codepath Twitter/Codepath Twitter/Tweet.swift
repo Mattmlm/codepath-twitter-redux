@@ -12,7 +12,7 @@ class Tweet: NSObject {
     var user: User?
     var text: String?
     var createdAtString: String?
-    var createdAt: NSDate?
+    var createdAt: Date?
     var retweetCount: Int?
     var favoriteCount: Int?
     var favorited: Bool?
@@ -30,8 +30,8 @@ class Tweet: NSObject {
         idString = dictionary["id_str"] as? String
         
         TweetDateFormatter.setDateFormatterForInterpretingJSON()
-        let formatter = TweetDateFormatter.sharedInstance
-        createdAt = formatter.dateFromString(createdAtString!)
+        let formatter = TweetDateFormatter.shared
+        createdAt = formatter.date(from: createdAtString!)
     }
     
     class func tweetsWithArray(array: [NSDictionary]) -> [Tweet] {

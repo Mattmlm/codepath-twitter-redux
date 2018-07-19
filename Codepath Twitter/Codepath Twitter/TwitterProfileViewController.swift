@@ -23,21 +23,21 @@ class TwitterProfileViewController: UIViewController {
         super.viewDidLoad()
         
         self.title = user?.name!
-        let closeButton = UIBarButtonItem(title: "Close", style: .Plain, target: self, action: "closeProfile")
+        let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeProfile))
         self.navigationItem.leftBarButtonItem = closeButton;
         
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.barTintColor = UIColor(rgba: "#55ACEE");
-        self.navigationController?.navigationBar.translucent = false;
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor();
-        self.navigationController?.navigationBar.barStyle = UIBarStyle.Black;
+        self.navigationController?.navigationBar.isTranslucent = false;
+        self.navigationController?.navigationBar.tintColor = UIColor.white;
+        self.navigationController?.navigationBar.barStyle = UIBarStyle.black;
         
         self.tweetsCountLabel.text = "\(user.tweetsCount!)"
         self.followingCountLabel.text = "\(user.followingCount!)"
         self.followersCountLabel.text = "\(user.followersCount!)"
         
-        self.profileBackgroundImageView.setImageWithURL(NSURL(string: user.profileBackgroundImageUrl!)!)
-        self.profileImageView.setImageWithURL(NSURL(string: user.profileImageUrl!)!)
+        self.profileBackgroundImageView.setImageWith(URL(string: user.profileBackgroundImageUrl!)!)
+        self.profileImageView.setImageWith(URL(string: user.profileImageUrl!)!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,15 +45,15 @@ class TwitterProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func closeProfile() {
-        dismissViewControllerAnimated(true, completion: nil);
+    @objc func closeProfile() {
+        dismiss(animated: true, completion: nil);
     }
 
     /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
