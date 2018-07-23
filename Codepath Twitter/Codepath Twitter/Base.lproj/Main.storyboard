@@ -27,7 +27,7 @@
                                 <rect key="frame" x="183.66666666666666" y="129" width="47" height="30"/>
                                 <state key="normal" title="Sign In"/>
                                 <connections>
-                                    <action selector="onLoginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DVe-Ia-nVA"/>
+                                    <action selector="onLoginButtonPressedWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="19R-a1-ZLq"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -48,7 +48,6 @@
         <!--Home-->
         <scene sceneID="uac-DG-nuW">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ril-T8-F17" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="TweetsViewController" id="ont-PG-InN" customClass="TweetsViewController" customModule="Codepath_Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SsP-fk-Prb"/>
@@ -83,13 +82,13 @@
                         <segue destination="GHI-h7-frg" kind="show" identifier="showTweetDetails" id="Coj-Zl-4aU"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ril-T8-F17" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2522" y="113"/>
         </scene>
         <!--Tweet Details View Controller-->
         <scene sceneID="OOl-Bv-Ow8">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Z9p-C7-kMR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="GHI-h7-frg" customClass="TweetDetailsViewController" customModule="Codepath_Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Zzr-Xj-ccT"/>
@@ -189,8 +188,8 @@
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mwa-tn-vw4">
                                 <rect key="frame" x="219" y="221" width="81" height="22"/>
                                 <state key="normal" title="Favorite" image="button:Mwa-tn-vw4:image"/>
-                                <state key="selected" image="3AAD0EA7-355D-4164-921F-C8796DA159EB"/>
-                                <state key="highlighted" image="3AAD0EA7-355D-4164-921F-C8796DA159EB"/>
+                                <state key="selected" image="90836E8F-6711-484F-948C-8088FC6AFF7B"/>
+                                <state key="highlighted" image="90836E8F-6711-484F-948C-8088FC6AFF7B"/>
                                 <connections>
                                     <action selector="onFavoriteButtonPressed:" destination="GHI-h7-frg" eventType="touchUpInside" id="nav-9j-Xpb"/>
                                 </connections>
@@ -265,13 +264,13 @@
                         <outlet property="userNameLabel" destination="qtO-Vb-TZc" id="PNY-PT-pQR"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z9p-C7-kMR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2522" y="735"/>
         </scene>
         <!--Compose-->
         <scene sceneID="lk1-q3-7Ns">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HPv-EM-f7c" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="HUb-pZ-Hl5" customClass="ComposeTweetViewController" customModule="Codepath_Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PEa-Kf-2wj"/>
@@ -314,6 +313,7 @@
                         <outlet property="tweetField" destination="gHe-wk-4u8" id="68u-ia-MG4"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HPv-EM-f7c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4749" y="135"/>
         </scene>
@@ -398,7 +398,6 @@
         <!--Navigation Controller-->
         <scene sceneID="qiV-75-Yyk">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="elV-CS-9gW" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zM3-q9-YkH" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -411,6 +410,7 @@
                         <segue destination="HUb-pZ-Hl5" kind="relationship" relationship="rootViewController" id="v9a-Tu-4af"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="elV-CS-9gW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3636" y="135"/>
         </scene>
@@ -496,7 +496,6 @@
         <!--Navigation Controller-->
         <scene sceneID="Yvu-mc-Qho">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6Ns-wt-LfI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kUi-Se-2Jd" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
@@ -509,12 +508,13 @@
                         <segue destination="ont-PG-InN" kind="relationship" relationship="rootViewController" id="427-DK-6yb"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Ns-wt-LfI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1549" y="106"/>
         </scene>
     </scenes>
     <resources>
-        <image name="3AAD0EA7-355D-4164-921F-C8796DA159EB" width="16" height="16">
+        <image name="90836E8F-6711-484F-948C-8088FC6AFF7B" width="16" height="16">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGUlNYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK8QEQcI
 ERYbHCAhKCsuOEBESExPVSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05T

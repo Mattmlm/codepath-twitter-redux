@@ -43,35 +43,34 @@ class User: NSObject {
 //        NSNotificationCenter.defaultCenter().postNotificationName(userDidLogoutNotification, object:nil)
     }
 
-//  class var currentUser: User? {
-//    get {
-//      if _currentUser == nil {
-//        let data = NSUserDefaults.standardUserDefaults().objectForKey(currentUserKey) as? NSData
-//        if data != nil {
-//          do {
-//            let dictionary = try NSJSONSerialization.JSONObjectWithData(data!, options: [])
-//            _currentUser = User(dictionary: dictionary as! NSDictionary);
-//          } catch {
-//            print("Error: \(error)")
-//          }
-//        }
-//      }
-//      return _currentUser
-//    }
-//    set(user) {
-//      _currentUser = user
-//
-//      if _currentUser != nil {
-//        do {
-//          let data = try NSJSONSerialization.dataWithJSONObject(user!.dictionary, options: [])
-//          NSUserDefaults.standardUserDefaults().setObject(data, forKey: currentUserKey)
-//        } catch {
-//          print("Error: \(error)")
-//        }
-//      } else {
-//        NSUserDefaults.standardUserDefaults().setObject(nil, forKey: currentUserKey)
-//      }
-//      NSUserDefaults.standardUserDefaults().synchronize()
-//    }
-//  }
+  class var currentUser: User? {
+    get {
+      if _currentUser == nil {
+        if let data = UserDefaults.standard.object(forKey: currentUserKey) as? Data {
+          do {
+            let dictionary = try JSONSerialization.jsonObject(with: data, options: [])
+            _currentUser = User(dictionary: dictionary as! NSDictionary);
+          } catch {
+            print("Error: \(error)")
+          }
+        }
+      }
+      return _currentUser
+    }
+    set(user) {
+      _currentUser = user
+
+      if _currentUser != nil {
+        do {
+            let data = try JSONSerialization.data(withJSONObject: user!.dictionary, options: [])
+            UserDefaults.standard.set(data, forKey: currentUserKey)
+        } catch {
+          print("Error: \(error)")
+        }
+      } else {
+        UserDefaults.standard.set(nil, forKey: currentUserKey)
+      }
+      UserDefaults.standard.synchronize()
+    }
+  }
 }

@@ -15,6 +15,9 @@ class TwitterMainViewController: UIViewController, UIScrollViewDelegate, MenuBut
     @IBOutlet weak var twitterMenuContainerView: UIView!
     @IBOutlet weak var tweetsContainerView: UIView!
     
+    /*
+     * These two variables are explicitly set in prepare(for segue:)
+     */
     var twitterMenuVC: TwitterMenuViewController!
     var tweetsVC: TweetsViewController!
     

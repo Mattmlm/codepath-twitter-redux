@@ -25,37 +25,15 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var refreshControl = UIRefreshControl()
     var formatter = DateComponentsFormatter()
     var timelineType: TimelineType? = .Home
-    var refreshTable: (([Tweet]?, NSError?) -> ())?
+    var refreshTable: (([Tweet]?, Error?) -> ())?
     weak var delegate: MenuButtonDelegate?
     
     @IBOutlet weak var tableView: UITableView!
     
-//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-//        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-//        
-//        self.initialize()
-//    }
-//    
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        
-//        self.initialize()
-//    }
-//    
-//    init() {
-//        super.init(nibName: nil, bundle: nil)
-//        
-//        self.initialize()
-//    }
-    
-    func initialize() {
-        self.view.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshTable = { (tweets: [Tweet]?, error: NSError?) -> () in
+        refreshTable = { (tweets: [Tweet]?, error: Error?) -> () in
             MBProgressHUD.hide(for: self.view, animated: true)
             if (tweets != nil) {
                 self.tweets = tweets
@@ -96,24 +74,25 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func loadTweets(type: TimelineType) {
-        if (self.timelineType == nil || self.timelineType != type) {
-            MBProgressHUD.showAdded(to: self.view, animated: true)
-            if (type == .Home) {
-//                TwitterClient.sharedInstance.homeTimelineWithCompletion(params: nil, completion: self.refreshTable);
-                self.timelineType = .Home;
-            } else if (type == .Mentions) {
-//                TwitterClient.sharedInstance.mentionsTimelineWithCompletion(params: nil, completion: self.refreshTable);
-                self.timelineType = .Mentions;
-            }
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        if (type == .Home) {
+            let refreshTable = self.refreshTable
+            sharedTwitterClient.homeTimelineWithCompletion(params: nil, completion: refreshTable);
+            self.timelineType = .Home;
+        } else if (type == .Mentions) {
+//            sharedTwitterClient.mentionsTimelineWithCompletion(params: nil, completion: self.refreshTable);
+            self.timelineType = .Mentions;
         }
     }
     
     @objc func onRefresh() {
         if self.timelineType == .Home {
-//            TwitterClient.sharedInstance.homeTimelineWithCompletion(params: nil) { (tweets, error) -> () in
-//                self.refreshControl.endRefreshing()
-//                self.refreshTable(tweets, error);
-//            }
+            sharedTwitterClient.homeTimelineWithCompletion(params: nil) { (tweets, error) -> () in
+                self.refreshControl.endRefreshing()
+                if let refreshTable = self.refreshTable {
+                    refreshTable(tweets, error);
+                }
+            }
         } else if self.timelineType == .Mentions {
 //            TwitterClient.sharedInstance.mentionsTimelineWithCompletion(params: nil) { (tweets, error) -> () in
 //                self.refreshControl.endRefreshing()

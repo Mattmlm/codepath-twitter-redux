@@ -23,15 +23,15 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func onLoginButtonPressed(sender: Any) {
-//        TwitterClient.sharedInstance.loginWithCompletion {
-//            (user, error) -> () in
-//            if user != nil {
-//                // perform segue
-//                self.performSegueWithIdentifier("LoginSegue", sender: self)
-//            } else {
-//                // handle login error
-//            }
-//        }
+        sharedTwitterClient.loginWithCompletion {
+            (user, error) -> () in
+            if user != nil {
+                // perform segue
+                self.performSegue(withIdentifier: "LoginSegue", sender: self)
+            } else {
+                // handle login error
+            }
+        }
     }
 }
 
